@@ -1,0 +1,28 @@
+import { GetServerSideProps, NextPage } from "next";
+import Page from "../components/page";
+
+interface ErrorPageProps {
+  statusCode: number;
+}
+const CustomError: NextPage<ErrorPageProps> = ({ statusCode }) => {
+  return (
+    <Error
+      statusCode={statusCode}
+      title={statusCode === 410 ? <Page /> : undefined}
+    />
+  );
+};
+
+const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
+  const statusCode = 410;
+  res.statusCode = statusCode;
+
+  return {
+    props: {
+      statusCode,
+    },
+  };
+};
+
+export default CustomError;
+export { getServerSideProps };
